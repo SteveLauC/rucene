@@ -19,16 +19,12 @@
 #![feature(drain_filter)]
 #![feature(hashmap_internals)]
 #![feature(integer_atomics)]
-#![feature(vec_remove_item)]
-#![feature(specialization)]
 #![allow(clippy::cast_lossless)]
 #![feature(fn_traits)]
-#![feature(maybe_uninit_ref)]
-#![feature(maybe_uninit_extra)]
-#![feature(in_band_lifetimes)]
 #![feature(vec_into_raw_parts)]
 #![feature(core_intrinsics)]
 #![feature(stmt_expr_attributes)]
+#![feature(specialization)]
 
 #[macro_use]
 extern crate error_chain;

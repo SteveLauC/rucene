@@ -1458,7 +1458,8 @@ where
         {
             let lock = Arc::clone(&self.lock);
             let l = lock.lock()?;
-            let _ = self.abort_merges(l)?;
+            // let _ = self.abort_merges(l)?;
+            drop(self.abort_merges(l)?);
         }
         self.rate_limiters = Arc::new(ThreadLocal::new());
         debug!("IW - rollback: done finish merges");
@@ -2848,7 +2849,15 @@ where
                     .fetch_sub(info.info.max_doc as i64, Ordering::AcqRel);
                 if merge.segments.contains(info) {
                     self.merging_segments.remove(&info.info.name);
-                    merge.segments.remove_item(info);
+
+                    merge.segments.remove(
+                        merge
+                            .segments
+                            .iter()
+                            .position(|item| item == info)
+                            .unwrap(),
+                    );
+                    // merge.segments.remove_item(info);
                 }
                 self.reader_pool.drop(info.as_ref())?;
             }
